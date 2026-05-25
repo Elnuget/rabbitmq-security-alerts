@@ -2,7 +2,7 @@ RABBITMQ_HOST = "localhost"
 RABBITMQ_PORT = 5672
 RABBITMQ_USER = "guest"
 RABBITMQ_PASSWORD = "guest"
-RABBITMQ_VHOST = "/"
+RABBITMQ_VHOST = "security_alerts"
 
 TOPIC_EXCHANGE = "alerts.topic"
 DIRECT_EXCHANGE = "alerts.direct"
