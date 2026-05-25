@@ -1,0 +1,13 @@
+RABBITMQ_HOST = "localhost"
+RABBITMQ_PORT = 5672
+RABBITMQ_USER = "guest"
+RABBITMQ_PASSWORD = "guest"
+RABBITMQ_VHOST = "/"
+
+TOPIC_EXCHANGE = "alerts.topic"
+DIRECT_EXCHANGE = "alerts.direct"
+FANOUT_EXCHANGE = "alerts.fanout"
+
+SOC_QUEUE = "q.soc.critical"
+NOTIFICATIONS_QUEUE = "q.notifications"
+AUDIT_QUEUE = "q.audit"
