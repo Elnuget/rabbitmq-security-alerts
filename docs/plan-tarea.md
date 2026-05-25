@@ -9,7 +9,7 @@ Caso: Gestor de Alertas de Seguridad
 - [x] Paso 1: Crear repositorio publico y estructura base.
 - [x] Paso 2: Levantar RabbitMQ con Docker.
 - [x] Paso 3: Crear vhost, exchanges, colas y bindings.
-- [ ] Paso 4: Implementar productor de alertas.
+- [x] Paso 4: Implementar productor de alertas.
 - [ ] Paso 5: Implementar dos consumidores.
 - [ ] Paso 6: Ejecutar pruebas del flujo completo.
 - [ ] Paso 7: Tomar capturas de RabbitMQ Management.
