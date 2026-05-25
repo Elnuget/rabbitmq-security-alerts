@@ -10,7 +10,7 @@ Caso: Gestor de Alertas de Seguridad
 - [x] Paso 2: Levantar RabbitMQ con Docker.
 - [x] Paso 3: Crear vhost, exchanges, colas y bindings.
 - [x] Paso 4: Implementar productor de alertas.
-- [ ] Paso 5: Implementar dos consumidores.
+- [x] Paso 5: Implementar dos consumidores.
 - [ ] Paso 6: Ejecutar pruebas del flujo completo.
 - [ ] Paso 7: Tomar capturas de RabbitMQ Management.
 - [ ] Paso 8: Completar documento final con evidencias.
@@ -80,4 +80,12 @@ docker compose up -d
 python src/consumer_soc.py
 python src/consumer_notifications.py
 python src/producer.py
+```
+
+Para prueba rapida sin dejar procesos abiertos:
+
+```bash
+python src/producer.py
+python src/consumer_soc.py --limit 2
+python src/consumer_notifications.py --limit 3
 ```
