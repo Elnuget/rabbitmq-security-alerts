@@ -11,7 +11,7 @@ Caso: Gestor de Alertas de Seguridad
 - [x] Paso 3: Crear vhost, exchanges, colas y bindings.
 - [x] Paso 4: Implementar productor de alertas.
 - [x] Paso 5: Implementar dos consumidores.
-- [ ] Paso 6: Ejecutar pruebas del flujo completo.
+- [x] Paso 6: Ejecutar pruebas del flujo completo.
 - [ ] Paso 7: Tomar capturas de RabbitMQ Management.
 - [ ] Paso 8: Completar documento final con evidencias.
 - [ ] Paso 9: Preparar demo en clase.
@@ -89,3 +89,34 @@ python src/producer.py
 python src/consumer_soc.py --limit 2
 python src/consumer_notifications.py --limit 3
 ```
+
+## Evidencia Paso 6
+
+Prueba end-to-end ejecutada contra RabbitMQ local en vhost `security_alerts`.
+
+Antes de publicar se purgaron las colas `q.soc.critical`, `q.notifications` y `q.audit`.
+
+Despues de ejecutar `python src/producer.py`:
+
+```text
+q.soc.critical      2 ready, 0 unacked
+q.notifications     3 ready, 0 unacked
+q.audit             1 ready, 0 unacked
+```
+
+Despues de ejecutar consumidores:
+
+```text
+python src/consumer_soc.py --limit 2
+python src/consumer_notifications.py --limit 3
+```
+
+Resultado:
+
+```text
+q.soc.critical      0 ready, 0 unacked
+q.notifications     0 ready, 0 unacked
+q.audit             1 ready, 0 unacked
+```
+
+`q.audit` conserva 1 mensaje porque no tiene consumidor en esta practica; evidencia que `alerts.fanout` difundio el broadcast tambien a auditoria.
