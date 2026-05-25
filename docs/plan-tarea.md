@@ -12,8 +12,8 @@ Caso: Gestor de Alertas de Seguridad
 - [x] Paso 4: Implementar productor de alertas.
 - [x] Paso 5: Implementar dos consumidores.
 - [x] Paso 6: Ejecutar pruebas del flujo completo.
-- [ ] Paso 7: Tomar capturas de RabbitMQ Management.
-- [ ] Paso 8: Completar documento final con evidencias.
+- [x] Paso 7: Tomar capturas de RabbitMQ Management.
+- [x] Paso 8: Completar documento final con evidencias.
 - [ ] Paso 9: Preparar demo en clase.
 
 ## Arquitectura Objetivo
