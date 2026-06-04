@@ -11,3 +11,6 @@ gittok.txt
 
 # Generated docs/assets
 docs/screenshots/
+
+# SQLite databases
+*.db

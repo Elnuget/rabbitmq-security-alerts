@@ -1,42 +1,73 @@
-# RabbitMQ Security Alerts
+# RabbitMQ Security Alerts - Microservices
 
-Proyecto para la práctica de Diseño y Arquitectura de Software sobre gestores de colas con RabbitMQ.
+Microservicios de alertas de seguridad con RabbitMQ.
 
-Caso real: Gestor de Alertas de Seguridad.
+## Arquitectura
 
-## Objetivo
+```
+producer-service ──> RabbitMQ ──> consumer-soc-service (API REST + SQLite)
+                          │
+                          └──> consumer-notifications-service (SQLite)
+```
 
-Implementar un productor y dos consumidores usando RabbitMQ con exchanges `topic`, `direct` y `fanout`.
+Cada servicio se despliega en su propio contenedor Docker con almacenamiento independiente.
 
-## Componentes
+## Microservicios
 
-- `producer`: publica alertas de seguridad.
-- `consumer_soc`: consume alertas críticas para el equipo SOC.
-- `consumer_notifications`: consume alertas de notificación.
-- RabbitMQ Management UI: permite evidenciar exchanges, colas y bindings.
+| Servicio | Puerto | Almacenamiento | API |
+|---|---|---|---|
+| producer-service | - | - | No |
+| consumer-soc-service | 8000 | SQLite (`/data/soc_alerts.db`) | Si |
+| consumer-notifications-service | - | SQLite (`/data/notifications.db`) | No |
+
+## Ejecucion
+
+```bash
+docker compose up --build
+```
+
+Todos los servicios se inician automaticamente. El producer publica alertas cada 15 segundos.
+
+## API SOC
+
+Una vez levantado:
+
+```bash
+curl http://localhost:8000/alerts
+curl http://localhost:8000/alerts/count
+curl http://localhost:8000/health
+```
+
+## RabbitMQ Management
+
+```
+http://localhost:15672
+```
+
+Usuario: `guest` / Password: `guest`
 
 ## Estructura
 
-```text
-.
-├── docs/
-│   └── plan-tarea.md
-├── src/
-│   ├── config.py
-│   ├── consumer_notifications.py
-│   ├── consumer_soc.py
-│   └── producer.py
-├── docker-compose.yml
-├── requirements.txt
-└── README.md
+```
+services/
+├── producer-service/
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
+├── consumer-soc-service/
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
+└── consumer-notifications-service/
+    ├── app.py
+    ├── Dockerfile
+    └── requirements.txt
 ```
 
-## Inicio Rapido
+## Patron Arquitectonico
 
-```bash
-docker compose up -d
-python -m venv .venv
-pip install -r requirements.txt
-```
-
-Luego se implementan productor y consumidores segun `docs/plan-tarea.md`.
+- **Comunicacion asincrona**: Los microservicios se comunican mediante RabbitMQ, no llamadas HTTP directas.
+- **Desacoplamiento**: El productor no conoce a los consumidores.
+- **Almacenamiento propio**: Cada consumidor tiene su base SQLite independiente.
+- **Despliegue independiente**: Cada servicio en su contenedor con su Dockerfile.
+- **API REST**: consumer-soc expone endpoints para consultar alertas consumidas.
